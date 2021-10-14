@@ -79,7 +79,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button" data-toggle="dropdown"> Welcome {{request.user}}</a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/shop/user_profile/">My Profile</a>
+              <a class="dropdown-item" href="/shop/profile/">My Profile</a>
               <a class="dropdown-item" href="/shop/logout/">Logout</a>
             </div>
           </li>  
@@ -177,11 +177,11 @@
               </div>
               <div class="text-left my-2">
                   <b><label for="password">Password:</label></b>
-                  <input class="form-control" id="password" name="password" placeholder="Enter Password" type="password" required pattern="{5}" data-toggle="password">
+                  <input class="form-control" id="password" name="password" placeholder="Enter Password" type="password" required pattern="{8}" data-toggle="password">
               </div>
               <div class="text-left my-2">
                   <b><label for="password1">Renter Password:</label></b>
-                  <input class="form-control" id="password1" name="password1" placeholder="Renter Password" type="password" required data-toggle="password">
+                  <input class="form-control" id="password1" name="password1" placeholder="confirm Password" type="password" required data-toggle="password">
               </div>
               <button type="submit" class="btn btn-success">Submit</button>
             </form>
@@ -347,7 +347,7 @@
     $('.divpr').on("click", "button.minus", function() {
         //console.log("minus clicked");
         a = this.id.slice(7, );
-        cart['pr' + a][0] = cart['pr' + a][0] - 1;
+        cart['pr' + a][0] = cart['pr' + a][0] - 0;
         cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
         if(cart['pr' + a][0] == 0) {
             document.getElementById('divpr' + a).innerHTML = '<button id="pr'+a+'" class="btn btn-primary cart">Add to Cart</button>';
@@ -363,11 +363,12 @@
     $('.divpr').on("click", "button.plus", function() {
         //console.log("plus clicked");
         a = this.id.slice(6, );
-        cart['pr' + a][0] = cart['pr' + a][0] + 1;
+        cart['pr' + a][0] = cart['pr' + a][0] + 0;
         document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
         updateCart(cart);
     });
     
+
     </script>
 
     {% block js %} {% endblock %}

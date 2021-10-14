@@ -1,10 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Product, Contact, Orders, OrderUpdate
+from .models import Product, Contact, Orders, OrderUpdate, Profile
 # from django.contrib.auth.models import
 from django.contrib.auth.admin import UserAdmin
-
 
 class OrderUpdateAdmin(admin.ModelAdmin):
     list_display = ('order_id', 'update_desc', 'timestamp')
@@ -48,6 +47,7 @@ class ContactAdmin(admin.ModelAdmin):
         return False
 
 
+admin.site.register(Profile)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(Orders, OrdersAdmin)

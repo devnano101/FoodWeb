@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.http import HttpResponseRedirect
-
+from shop.forms import ProfileUpdateForm, UserUpdateForm
 
 from .models import Product, Contact, Orders, OrderUpdate
 from django.contrib.auth.models import User
@@ -10,6 +10,10 @@ from django.contrib.auth import authenticate, login, logout
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+from django.contrib.auth.decorators import login_required 
+
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 def index(request):
@@ -21,8 +25,8 @@ def index(request):
         n = len(prod)
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         allProds.append([prod, range(1, nSlides), nSlides])
-    items = {'allProds': allProds}
-    return render(request, 'shop/index.html', items) #items==darshan
+    foodweb = {'allProds': allProds}
+    return render(request, 'shop/index.html', foodweb) 
 
 
 def about(request):
@@ -74,8 +78,8 @@ def handleSignUp(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
         try:
-            user = User.objects.get(email=email)
-            messages.warning(request,  "This email already registered in this site, please Try with different email.")
+            user = User.objects.get(username=username)
+            messages.warning(request,  "This username already registered in this site, please Try with different username.")
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         except User.DoesNotExist:
             # Create the user
@@ -89,6 +93,8 @@ def handleSignUp(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         return HttpResponse("404 - Not found")
+
+
 
 
 def handleLogout(request):
@@ -157,3 +163,60 @@ def tracker(request):
         else:
             return HttpResponse('{"status":"Invalid"}')
     return render(request, 'shop/tracker.html')
+
+
+def searchMatch(query, item):
+    if query in item.desc.lower() or query in item.product_name.lower() or query in item.category.lower() or query in item.desc or query in item.product_name or query in item.category or query in item.desc.upper() or query in item.product_name.upper() or query in item.category.upper():
+        return True
+    else:
+        return False
+
+
+def search(request):
+    query = request.GET.get('search')
+    allProds = []
+    catprods = Product.objects.values('category', 'id')
+    cats = {item['category'] for item in catprods}
+    for cat in cats:
+        prodtemp = Product.objects.filter(category=cat)
+        prod = [item for item in prodtemp if searchMatch(query, item)]
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(prod) != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+    foodweb = {'allProds': allProds, "msg": ""}
+    if len(allProds) == 0 or len(query) < 3:
+        foodweb = {'msg': "No item available. Please make sure to enter relevant search query"}
+    return render(request, 'shop/search.html', foodweb)
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = "/shop/profile/"
+
+# Update it here
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST,
+                                   request.FILES,
+                                   instance=request.user.profile) 
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile') # Redirect back to profile page
+
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context = {
+        'u_form': u_form,
+        'p_form': p_form
+    }
+
+    return render(request, 'shop/profile.html', context)
+

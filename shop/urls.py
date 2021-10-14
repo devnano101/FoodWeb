@@ -1,6 +1,11 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from shop import views as user_views
+# from .views import profile
+# from shop.views import ChangePasswordView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,12 +15,15 @@ urlpatterns = [
     path('about/', views.about, name="AboutUs"),
     path('contact/', views.contact, name="ContactUs"),
     path('tracker/', views.tracker, name="TrackingStatus"),
-#     path('search/', views.search, name="Search"),
+    path('search/', views.search, name="Search"),
     path('checkout/', views.checkout, name="Checkout"),
     path('productView/<int:myid>', views.productView, name="productView"),
     path('orderView/', views.orderView, name="orderView"),
-
-#     path('profile/', views.profile, name="profile"), //trying to add user profile where user can edit their infos.
+    path('profile/', user_views.profile, name='profile'),
+    
+    
+     # path('profile/', views.profile, name="profile"), //trying to add user profile where user can edit their infos.
+#     path('profile/change_password/', ChangePasswordView.as_view(), name='password_change'),
 
     path('reset_password/',
          auth_views.PasswordResetView.as_view(template_name="shop/password_reset.html"),
@@ -34,3 +42,4 @@ urlpatterns = [
          name="password_reset_complete"),
 
 ]
+

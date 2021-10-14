@@ -4,7 +4,7 @@ from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-
+from PIL import Image
 
 class Product(models.Model):
     product_id = models.AutoField
@@ -46,28 +46,31 @@ class OrderUpdate(models.Model):
     update_id = models.AutoField(primary_key=True)
     order_id = models.IntegerField(default="")
     update_desc = models.CharField(max_length=5000)
-    
     timestamp = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.update_desc
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    phone = models.CharField(max_length=15, default="")
 
-# class UserProfile(models.Model):
-#     Profile_user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     profile_img  = models.ImageField(default = "images/default_format.png")
-#     f_name = models.CharField(max_length=60)
-#     l_name = models.CharField(max_length=60)
-#     email = models.CharField(max_length=111)
-#     address = models.CharField(max_length=200)
-#     phone = models.CharField(max_length=20, default="")
-#     password = models.CharField(max_length=30, default="")
-#     timestamp = models.DateTimeField(default=timezone.now)
 
-# @receiver(post_save, sender= User)
-# def Updated_prof_signal(sender, instace, created, **kwargs):
-#     if created:
-#         UserProfile.objects.create(Profile_user=instace)
-#         instace.userprofile.save()
+    def __str__(self):
+        return f'{self.user.username} Profile'
+
+    # # Override the save method of the model
+    # def save(self):
+    #     super().save()
+
+    #     img = Image.open(self.image.path) # Open image
+        
+    #     # resize image
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size) # Resize image
+    #         img.save(self.image.path) # Save it again and override the larger image
+
 

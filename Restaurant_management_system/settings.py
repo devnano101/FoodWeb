@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 
 ]
 
@@ -39,6 +40,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ROOT_URLCONF = 'Restaurant_management_system.urls'
 
@@ -59,6 +62,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Restaurant_management_system.wsgi.application'
+
 
 
 # Database
