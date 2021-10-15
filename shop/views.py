@@ -191,7 +191,7 @@ def search(request):
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'change_password.html'
+    template_name = 'shop/change_password.html'
     success_message = "Successfully Changed Your Password"
     success_url = "/shop/profile/"
 
