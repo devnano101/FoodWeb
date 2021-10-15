@@ -10,42 +10,81 @@
         -webkit-appearance: none;
         margin: 0;
     }
+
+    .sec-pad{
+        margin-top:50px;
+    }
 {% endblock %}
 
 {% block body %}
 
     {% if user.is_authenticated %}
-    <div class="container">
-        
-        <div class="col my-4">
-            <h2>Enter your Order Id to track your order</h2>
-            <form method="post" action="#" id="trackerForm">{% csrf_token %}
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <b><label for="orderId">Order Id: </label></b>
-                        <input type="number" class="form-control" id="orderId" name="orderId" placeholder="Order Id" required>
-                    </div>
-                    <div class="form-group col-md-4">
-                        <b><label for="email">Email: </label></b>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
-                    </div> 
-                     <div class="form-group col-md-4">
-                        <b><label for="pass">Password: </label></b>
-                        <input type="password" class="form-control" id="pass" name="pass" placeholder="Enter Password" required data-toggle="password">
-                    </div> 
-                    <input type="hidden" name="name" id="name" value="{{ request.user }}">
-                    <button type="submit" class="btn btn-primary">Track Order</button>
+
+    <div class="container sec-pad">
+        <div class="section">
+            <div class="row">
+
+                <div class="col-md-6 sec-pad">
+                    <h3>Enter your Order Id to track your order</h3><br>
+                    <form method="post" action="#" id="trackerForm">{% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <b><label for="orderId">Order Id: </label></b>
+                                <input type="number" class="form-control" id="orderId" name="orderId" placeholder="Order Id" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <b><label for="email">Email: </label></b>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                            </div> 
+                            <div class="form-group col-md-4">
+                                <b><label for="pass">Password: </label></b>
+                                <input type="password" class="form-control" id="pass" name="pass" placeholder="Enter Password" required data-toggle="password">
+                            </div> 
+                            <input type="hidden" name="name" id="name" value="{{ request.user }}">
+                            <button type="submit" class="btn btn-primary">Track Order</button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+
+                <div class="col-md-6">
+                    <div id="mydiv"></div>
+
+                </div>
+            </div>
+
+            
+            
         </div>
-        <div class="col my-4" id="mydiv">
-        </div>
-    
     </div>
+            {% comment %} <br>
+            <div class="col my-4">
+                <h2>Enter your Order Id to track your order</h2>
+                <form method="post" action="#" id="trackerForm">{% csrf_token %}
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <b><label for="orderId">Order Id: </label></b>
+                            <input type="number" class="form-control" id="orderId" name="orderId" placeholder="Order Id" required>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <b><label for="email">Email: </label></b>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+                        </div> 
+                        <div class="form-group col-md-4">
+                            <b><label for="pass">Password: </label></b>
+                            <input type="password" class="form-control" id="pass" name="pass" placeholder="Enter Password" required data-toggle="password">
+                        </div> 
+                        <input type="hidden" name="name" id="name" value="{{ request.user }}">
+                        <button type="submit" class="btn btn-primary">Track Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col my-4" id="mydiv"> {% endcomment %}
+         
     {% else %}
     <div id="cont2">
         <div class="alert alert-info">
-            <font style="font-size:22px"><center>Before Track Your Order you need to <strong><a class="alert-link" data-toggle="modal" data-target="#loginModal">Login</a></strong></center></font>
+            <font style="font-size:30px"><center>Before Track Your Order you need to <strong><a class="alert-link" data-toggle="modal" data-target="#loginModal">Login</a></strong></center></font>
         </div>
     </div>
     {% endif %}

@@ -187,7 +187,7 @@
 
         $('#click{{i.order_id}}').click(function() {
             $('#citems').empty();
-            myid = `<div><b>Order Id: FW{{i.order_id}}</b></div>`
+            myid = `<div><b>Order Id: {{i.order_id}}</b></div>`
             $('#citems').append(myid)
             mydata = "{{i.items_json}}";
             var mydata = mydata.replace(/&quot;/g, '"');

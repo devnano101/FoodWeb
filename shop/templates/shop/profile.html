@@ -5,12 +5,18 @@
 
 .rounded-circle {
     border-radius: 0%!important;
-    margin-top: 50px;
+   
     height:100px;
+}
+
+.marginn{
+   margin-top: 120px;
 }
 
 .colorback{
   background-color: #e8edee;
+  margin-bottom:50px;
+  
 }
 
 {% endblock%}
@@ -18,21 +24,19 @@
 {% block body %}
   
   <div class="container">
-    <div class="row">
-      <div class="media col-md-4 offset-md-3">
+    <div class="marginn">
+      <div class="media row col-md-6 offset-md-3">
         <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-      </div>
-      <div class="media-body col-md-4 offset-md-3 colorback">
-        <h2 class="account-heading">{{ user.username }}</h2> 
-        <h5 class="text-secondary">{{ user.email }}</h5>    
-      </div>
+      </div> 
       <br>
       <!-- FORM HERE -->
-      <div class="col-md-4 offset-md-3 colorback">
+      <div class=" row offset-md-3 col-md-6 colorback">
         <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <fieldset class="form-group">
               <legend class="border-bottom mb-4">Profile Info</legend>
+              <h2 class="account-heading">{{ user.username }}</h2> 
+              <h5 class="text-secondary">{{ user.email }}</h5> <br>
               {{ u_form|crispy }} <!-- User form -->
               <button> <a href="{% url 'password_change' %}">Change Password</a></button>
               {{ p_form|crispy }} <!-- Profile form -->
@@ -43,6 +47,7 @@
           </div>
         </form>
       </div>
+    </div>  
   </div> 
   
 {% endblock %}
